@@ -20,6 +20,8 @@ public class RotatingSolids {
         }
     }
 
+    public RotatingSolids() {}
+
     /** Circle **/
     public static class Circle {
         private double radius = 0;
@@ -93,6 +95,12 @@ public class RotatingSolids {
             return new RotatingSolids(radius, height);
         }
     }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    /** Utils **/
     String getParameters(boolean isCircle) {
         if (isCircle) return "radius: " + radius;
         else return "radius: " + radius + "\nheight: " + height;

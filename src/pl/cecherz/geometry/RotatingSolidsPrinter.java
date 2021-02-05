@@ -1,18 +1,29 @@
 package pl.cecherz.geometry;
 
 public class RotatingSolidsPrinter {
+
     /** Circle **/
     public static void buildCircle(double radius) throws NegativeArgumentException {
         String infoAboutParameters = new RotatingSolids.Circle().setRadius(radius)
                 .build()
                 .getParameters(true);
-        double circleArea = new RotatingSolids.Circle()
+        double circleArea = new RotatingSolids
+                .Circle()
                 .setRadius(radius)
                 .calcArea();
         double circleCircuit = new RotatingSolids
                 .Circle()
                 .setRadius(radius)
                 .calcCircuit();
+        System.out.println(infoAboutParameters);
+        System.out.println("Circle area is :" + circleArea);
+        System.out.println("Circle circuit is: " + circleCircuit + "\n");
+    }
+    public static void buildCircle(RotatingSolids rotatingSolid, double radius) throws NegativeArgumentException {
+        rotatingSolid = new RotatingSolids.Cylinder().setRadius(radius).build();
+        String infoAboutParameters = CircularSolids.from(rotatingSolid).getParameters();
+        double circleArea = CircularSolids.from(rotatingSolid).calcCircleArea();
+        double circleCircuit = CircularSolids.from(rotatingSolid).calcCircleCircuit();
         System.out.println(infoAboutParameters);
         System.out.println("Circle area is :" + circleArea);
         System.out.println("Circle circuit is: " + circleCircuit + "\n");
@@ -32,6 +43,15 @@ public class RotatingSolidsPrinter {
                 .calcVolume();
         System.out.println(infoAboutParameters);
         System.out.println("Sphere surface is :" + sphereSurface);
+        System.out.println("Sphere volume is: " + sphereVolume + "\n");
+    }
+    public static void buildSphere(RotatingSolids rotatingSolid, double radius) throws NegativeArgumentException {
+        rotatingSolid = new RotatingSolids.Cylinder().setRadius(radius).build();
+        String infoAboutParameters = CircularSolids.from(rotatingSolid).getParameters();
+        double sphereSurface = CircularSolids.from(rotatingSolid).calcSphereSurface();
+        double sphereVolume = CircularSolids.from(rotatingSolid).calcSphereVolume();
+        System.out.println(infoAboutParameters);
+        System.out.println("Sphere surface is: " + sphereSurface);
         System.out.println("Sphere volume is: " + sphereVolume + "\n");
     }
 
