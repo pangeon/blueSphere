@@ -1,10 +1,27 @@
-package pl.cecherz.geometry;
+package pl.cecherz.geometry.logic;
+
+import pl.cecherz.geometry.exceptions.MismatchedArgumentsException;
+import pl.cecherz.geometry.exceptions.NegativeArgumentException;
+import pl.cecherz.geometry.exceptions.UnknownFigureType;
 
 public class RotatingSolids {
     private static final double PI = Math.PI;
     private double radius;
+    private double outerRadius;
     private double height;
 
+    /* TODO: This constructor is unnecessary, torus use two parameters */
+    public RotatingSolids(double radius, double outerRadius, boolean isTorus) throws NegativeArgumentException, MismatchedArgumentsException {
+        this.radius = radius;
+        this.outerRadius = outerRadius;
+
+        if(radius < 0 || outerRadius < 0) {
+            throw new NegativeArgumentException();
+        }
+        if(outerRadius < radius) {
+            throw new MismatchedArgumentsException();
+        }
+    }
     private RotatingSolids(double radius, double height) throws NegativeArgumentException {
         this.radius = radius;
         this.height = height;
@@ -19,8 +36,6 @@ public class RotatingSolids {
             throw new NegativeArgumentException();
         }
     }
-
-    public RotatingSolids() {}
 
     /** Circle **/
     public static class Circle {
@@ -96,14 +111,39 @@ public class RotatingSolids {
         }
     }
 
-    public double getRadius() {
-        return radius;
+    /** Torus **/
+    public static class Torus {
+        private double radius = 1;
+        private double outerRadius = 1;
+
+        public Torus setRadius(double radius) {
+            this.radius = radius;
+            return this;
+        }
+
+        public Torus setOuterRadius(double outerRadius) {
+            this.outerRadius = outerRadius;
+            return this;
+        }
+        public double calcSurface() { return 4*(PI*PI)*outerRadius*radius; }
+        public double calcVolume() { return 2*(PI*PI)*outerRadius*(radius*radius); }
+
+        public RotatingSolids build() throws NegativeArgumentException, MismatchedArgumentsException {
+            return new RotatingSolids(radius, outerRadius, true);
+        }
     }
 
     /** Utils **/
-    String getParameters(boolean isCircle) {
-        if (isCircle) return "radius: " + radius;
-        else return "radius: " + radius + "\nheight: " + height;
+    public String getParameters(FigureTypes figureType) throws UnknownFigureType {
+        return switch (figureType) {
+            case circular -> "radius: " + radius;
+            case rolling -> "radius: " + radius + "\nheight: " + height;
+            case torus -> "radius: " + radius + "\nouther radius: " + outerRadius;
+            default -> throw new UnknownFigureType();
+        };
+    }
+    public double getRadius() {
+        return radius;
     }
 }
 

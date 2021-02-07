@@ -8,4 +8,11 @@ Program for simple mathematical calculations in geometry.
   * circle
   * sphere
   * cylinder
-  * cone  
+  * cone
+
+#### 07.02.2021
+- Add new rotating solid:
+  * torus
+  
+- Exception handle
+- Cleanup API

@@ -1,6 +1,8 @@
-package pl.cecherz.geometry;
+package pl.cecherz.geometry.deprecated;
 
-public class CircularSolids {
+import pl.cecherz.geometry.logic.RotatingSolids;
+
+class CircularSolids {
     private static final double PI = Math.PI;
     private double radius;
 
