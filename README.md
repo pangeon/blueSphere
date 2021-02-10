@@ -16,3 +16,6 @@ Program for simple mathematical calculations in geometry.
   
 - Exception handle
 - Cleanup API
+
+#### 10.02.2021
+- Add possibility to usage from command line.

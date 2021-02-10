@@ -10,6 +10,25 @@ public class RotatingSolids {
     private double outerRadius;
     private double height;
 
+    /* Circle, Sphere */
+    private RotatingSolids(double radius) throws NegativeArgumentException {
+        this.radius = radius;
+        if(radius < 0) {
+            throw new NegativeArgumentException();
+        }
+    }
+
+    /* Cylinder, Cone */
+    private RotatingSolids(double radius, double height) throws NegativeArgumentException {
+        this.radius = radius;
+        this.height = height;
+
+        if(radius < 0 || height < 0) {
+            throw new NegativeArgumentException();
+        }
+    }
+
+    /* Torus */
     /* TODO: This constructor is unnecessary, torus use two parameters */
     public RotatingSolids(double radius, double outerRadius, boolean isTorus) throws NegativeArgumentException, MismatchedArgumentsException {
         this.radius = radius;
@@ -20,20 +39,6 @@ public class RotatingSolids {
         }
         if(outerRadius < radius) {
             throw new MismatchedArgumentsException();
-        }
-    }
-    private RotatingSolids(double radius, double height) throws NegativeArgumentException {
-        this.radius = radius;
-        this.height = height;
-
-        if(radius < 0 || height < 0) {
-            throw new NegativeArgumentException();
-        }
-    }
-    private RotatingSolids(double radius) throws NegativeArgumentException {
-        this.radius = radius;
-        if(radius < 0) {
-            throw new NegativeArgumentException();
         }
     }
 
