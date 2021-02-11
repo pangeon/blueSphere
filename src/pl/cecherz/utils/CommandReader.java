@@ -1,8 +1,10 @@
 package pl.cecherz.utils;
 import pl.cecherz.geometry.exceptions.NegativeArgumentException;
 import pl.cecherz.geometry.exceptions.UnknownFigureType;
+
 import pl.cecherz.geometry.printers.RotatingSolidsPrinter;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 public class CommandReader {
@@ -26,36 +28,17 @@ public class CommandReader {
     /** Programme logic **/
     private static final Scanner CMD = new Scanner(System.in);
 
-    /* TODO: Exiting the program too complicated */
-    public void invokeCalculations() throws UnknownFigureType, NegativeArgumentException {
-        double radius = 0, height = 0, outerRadius = 0;
-        printMassage("Click any key and after enter to continue...");
+    public void invokeUserInterfaceInCMD() throws UnknownFigureType {
+        printMassage("Click enter to continue...");
 
+        // TODO: Exiting the program too complicated
         while (isStopApplication().equals("start")) {
-            switch (invokeCommand()) {
-                case circuit -> {
-                    radius = CMD.nextDouble();
-                    RotatingSolidsPrinter.showCircleData(radius);
-                }
-                case sphere -> {
-                    radius = CMD.nextDouble();
-                    RotatingSolidsPrinter.showSphereData(radius);
-                }
-                case cylinder -> {
-                    radius = CMD.nextDouble();
-                    height = CMD.nextDouble();
-                    RotatingSolidsPrinter.showCylinderData(radius, height);
-                }
-                case cone -> {
-                    radius = CMD.nextDouble();
-                    height = CMD.nextDouble();
-                    RotatingSolidsPrinter.showConeData(radius, height);
-                }
-                case torus -> {
-                    radius = CMD.nextDouble();
-                    outerRadius = CMD.nextDouble();
-                    RotatingSolidsPrinter.showTorusData(radius, outerRadius);
-                }
+            switch (Objects.requireNonNull(invokeCommand())) {
+                case circuit -> calcCircuit();
+                case sphere -> calcSphere();
+                case cylinder -> calcCylinder();
+                case cone -> calcCone();
+                case torus -> calcTorus();
             }
         }
     }
@@ -93,14 +76,19 @@ public class CommandReader {
                 printMassage("Enter cone radius (r) and height (h):");
                 return FigureNames.cone;
             }
-            case "tor" ->{
+            case "tor" -> {
                 printMassage("Enter torus radius (r) and outer radius (R):");
                 return FigureNames.torus;
+            }
+            case "exit" -> {
+                CMD.close();
+                return null;
             }
             default -> throw new UnknownFigureType();
         }
     }
 
+    /** Utils **/
     /* TODO: Exiting the program too complicated */
     private String isStopApplication() {
         if (CMD.nextLine().equals("exit")) {
@@ -111,5 +99,53 @@ public class CommandReader {
 
     private void printMassage(String massage) {
         System.out.println(massage);
+    }
+
+    private void calcCircuit() {
+        double radius = CMD.nextDouble();
+        try {
+            RotatingSolidsPrinter.showCircleData(radius);
+        } catch (NegativeArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calcSphere() {
+        double radius = CMD.nextDouble();
+        try {
+            RotatingSolidsPrinter.showSphereData(radius);
+        } catch (NegativeArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calcCylinder() {
+        double radius = CMD.nextDouble();
+        double height = CMD.nextDouble();
+        try {
+            RotatingSolidsPrinter.showCylinderData(radius, height);
+        } catch (NegativeArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calcCone() {
+        double radius = CMD.nextDouble();
+        double height = CMD.nextDouble();
+        try {
+            RotatingSolidsPrinter.showConeData(radius, height);
+        } catch (NegativeArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void calcTorus() {
+        double radius = CMD.nextDouble();
+        double outerRadius = CMD.nextDouble();
+        try {
+            RotatingSolidsPrinter.showTorusData(radius, outerRadius);
+        } catch (NegativeArgumentException e) {
+            e.printStackTrace();
+        }
     }
 }
